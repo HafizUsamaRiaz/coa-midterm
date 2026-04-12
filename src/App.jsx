@@ -4,9 +4,8 @@ import { SECTION_A, SECTION_B, SECTION_C } from "./questions.js";
 // ═══════════════════════════════════════════════════════════════
 //  🔧 CONFIGURATION
 // ═══════════════════════════════════════════════════════════════
-//const GOOGLE_CLIENT_ID = "807519902454-pir1e3qaa9kfb7et1o4dh8t8dtsaouil.apps.googleusercontent.com";
-const ITU_DOMAIN       = "itu.edu.pk";
-const SHEET_URL        = "https://script.google.com/macros/s/AKfycbzGos0nqk-BIjx9zwuVtSRfU4diIbfGwlKTiBZhcQfDiG25gNPxdaiW0d5dxgrG9Qqkhw/exec";
+
+const SHEET_URL        = "YOUR_APPS_SCRIPT_URL_HERE";
 const COURSE           = "CE203L · Computer Organization & Architecture Lab";
 const EXAM_TITLE       = "Midterm Exam";
 const EXAM_SUB         = "Labs 1–6 · Verilog HDL & Digital Design";
@@ -227,65 +226,19 @@ const CodeBlock=({code})=>(
   </pre>
 );
 
-// ── Google Auth Screen ─────────────────────────────────────────
-function GoogleAuthScreen({onVerified}){
-  const [error,setError]=useState("");
-  const [loading,setLoading]=useState(false);
-  const btnRef=useRef(null);
-  useEffect(()=>{
-    const init=()=>{
-      if(!window.google){setTimeout(init,200);return;}
-      window.google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:handleCred,auto_select:false});
-      window.google.accounts.id.renderButton(btnRef.current,{theme:"filled_black",size:"large",width:320,text:"signin_with",shape:"rectangular"});
-    };init();
-  },[]);
-  const handleCred=(response)=>{
-    setLoading(true);setError("");
-    try{
-      const p=JSON.parse(atob(response.credential.split(".")[1]));
-      if((p.email||"").split("@")[1]?.toLowerCase()!==ITU_DOMAIN){
-        setError(`Access denied. Only @${ITU_DOMAIN} accounts allowed.\nSigned in as: ${p.email}`);
-        window.google.accounts.id.disableAutoSelect();setLoading(false);return;
-      }
-      onVerified({email:p.email,name:p.name,token:response.credential});
-    }catch{setError("Authentication failed.");setLoading(false);}
-  };
-  return(
-    <div style={{minHeight:"100vh",background:C.bg,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:C.sans,padding:16}}>
-      <div style={{position:"fixed",inset:0,backgroundImage:`linear-gradient(${C.dim} 1px,transparent 1px),linear-gradient(90deg,${C.dim} 1px,transparent 1px)`,backgroundSize:"48px 48px",opacity:0.5,pointerEvents:"none"}}/>
-      <div style={{maxWidth:460,width:"100%",position:"relative"}}>
-        <div style={{textAlign:"center",marginBottom:24}}>
-          <div style={{display:"inline-block",background:C.dim,border:`1px solid ${C.border}`,borderRadius:30,padding:"8px 24px",fontSize:11,color:"#4f8ef7",letterSpacing:3,fontFamily:C.mono}}>ITU · FACULTY OF ENGINEERING</div>
-        </div>
-        <Card style={{textAlign:"center"}}>
-          <div style={{fontSize:36,marginBottom:12}}>📋</div>
-          <Tag color="#4f8ef7">{COURSE}</Tag>
-          <h1 style={{color:C.text,fontSize:24,fontWeight:800,margin:"14px 0 4px",fontFamily:C.sans}}>{EXAM_TITLE}</h1>
-          <p style={{color:C.muted,fontSize:13,marginBottom:28,lineHeight:1.6}}>{EXAM_SUB}</p>
-          <div style={{background:C.dim,borderRadius:10,padding:"14px 18px",marginBottom:24,textAlign:"left"}}>
-            {[["📝","Section A","10 MCQs · 90 sec each"],["💻","Section B","8 Code Reading · 120 sec each"],["✏️","Section C","7 Fill-in-Blank · 120 sec each"],["⏱","Total","25 questions · ~60 minutes"],["🔐","Auth required",`@${ITU_DOMAIN} accounts only`]].map(([ic,t,d])=>(
-              <div key={t} style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:8}}>
-                <span style={{fontSize:14,flexShrink:0}}>{ic}</span>
-                <div><div style={{color:C.text,fontSize:12,fontWeight:700}}>{t}</div><div style={{color:C.muted,fontSize:11}}>{d}</div></div>
-              </div>
-            ))}
-          </div>
-          <div style={{display:"flex",justifyContent:"center",marginBottom:14}}><div ref={btnRef} style={{minHeight:44}}/></div>
-          {loading&&<div style={{color:C.muted,fontSize:12,fontFamily:C.mono}}>Verifying…</div>}
-          {error&&<div style={{background:"#1f0909",border:`1px solid #4a1a1a`,borderRadius:8,padding:"12px 16px",marginTop:12,color:"#ff5252",fontSize:12,lineHeight:1.7,textAlign:"left",whiteSpace:"pre-wrap"}}>⚠ {error}</div>}
-        </Card>
-      </div>
-    </div>
-  );
-}
+
 
 // ── Register Screen ────────────────────────────────────────────
-function RegisterScreen({googleUser,onStart}){
+function RegisterScreen({onStart}){
+  const [name,setName]=useState("");
   const [roll,setRoll]=useState("");
+  const [email,setEmail]=useState("");
   const [error,setError]=useState("");
   const [busy,setBusy]=useState(false);
   const go=async()=>{
+    if(!name.trim())return setError("Please enter your full name.");
     if(!roll.trim())return setError("Please enter your roll number.");
+    if(!email.trim())return setError("Please enter your email.");
     setError("");setBusy(true);
     try{
       if(SHEET_URL!=="YOUR_APPS_SCRIPT_URL_HERE"){
@@ -294,25 +247,19 @@ function RegisterScreen({googleUser,onStart}){
         if(data.exists){setError(`Roll number ${roll.trim().toUpperCase()} has already completed this exam.`);setBusy(false);return;}
       }
     }catch{}
-    setBusy(false);onStart(roll.trim().toUpperCase());
+    setBusy(false);onStart({name:name.trim(),roll:roll.trim().toUpperCase(),email:email.trim()});
   };
   return(
     <div style={{minHeight:"100vh",background:C.bg,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:C.sans,padding:16}}>
       <div style={{position:"fixed",inset:0,backgroundImage:`linear-gradient(${C.dim} 1px,transparent 1px),linear-gradient(90deg,${C.dim} 1px,transparent 1px)`,backgroundSize:"48px 48px",opacity:0.5,pointerEvents:"none"}}/>
       <div style={{maxWidth:480,width:"100%",position:"relative"}}>
         <Card>
-          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",background:"#091f14",border:`1px solid #1a4a2a`,borderRadius:10,padding:"12px 16px",marginBottom:20}}>
-            <div style={{display:"flex",alignItems:"center",gap:10}}>
-              <span>✅</span>
-              <div><div style={{color:C.green,fontSize:12,fontWeight:700}}>{googleUser.name}</div><div style={{color:"#3a8060",fontSize:11,fontFamily:C.mono}}>{googleUser.email}</div></div>
-            </div>
-            <button onClick={()=>{window.google?.accounts.id.disableAutoSelect();window.location.reload();}} style={{background:"transparent",border:`1px solid #1a4a2a`,borderRadius:6,color:"#3a6050",fontSize:10,padding:"4px 10px",cursor:"pointer",fontFamily:C.mono}}>Sign out</button>
-          </div>
           <div style={{marginBottom:16}}><Tag color="#4f8ef7">{COURSE}</Tag></div>
           <h1 style={{color:C.text,fontSize:22,fontWeight:800,margin:"0 0 4px",fontFamily:C.sans}}>{EXAM_TITLE}</h1>
           <p style={{color:C.muted,fontSize:13,marginBottom:24,lineHeight:1.6}}>{EXAM_SUB}</p>
-          <FieldInput label="FULL NAME" value={googleUser.name} readOnly onChange={()=>{}}/>
-          <FieldInput label="ROLL NUMBER" value={roll} onChange={e=>setRoll(e.target.value)} placeholder="e.g. 23-CE-001" onKeyDown={e=>e.key==="Enter"&&go()}/>
+          <FieldInput label="FULL NAME" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Muhammad Ali"/>
+          <FieldInput label="EMAIL" value={email} onChange={e=>setEmail(e.target.value)} placeholder="e.g. student@itu.edu.pk"/>
+          <FieldInput label="ROLL NUMBER" value={roll} onChange={e=>setRoll(e.target.value)} placeholder="e.g. 23-CE-001"/>
           {error&&<div style={{background:"#1f0909",border:`1px solid #4a1a1a`,borderRadius:8,padding:"12px 16px",marginBottom:16,color:"#ff5252",fontSize:12,lineHeight:1.6}}>⚠ {error}</div>}
           <div style={{background:C.dim,borderRadius:10,padding:"14px 18px",marginBottom:20}}>
             {[["Section A: MCQs","10 questions · 90 sec each"],["Section B: Code Reading","8 questions · 120 sec each"],["Section C: Fill-in-Blank","7 questions · 120 sec each"],["Attempts","One only — per roll number"]].map(([k,v])=>(
@@ -585,14 +532,13 @@ function ResultScreen({studentName,rollNumber,studentEmail,questions,answers,tab
 
 // ── Root App ───────────────────────────────────────────────────
 export default function App(){
-  const [phase,setPhase]=useState("auth");
-  const [gUser,setGUser]=useState(null);
+  const [phase,setPhase]=useState("register");
   const [student,setStudent]=useState({name:"",roll:"",email:""});
   const [result,setResult]=useState(null);
   const startTime=useRef(null);
 
-  const handleStart=(roll)=>{
-    setStudent({name:gUser.name,roll,email:gUser.email});
+  const handleStart=({name,roll,email})=>{
+    setStudent({name,roll,email});
     startTime.current=new Date().toISOString();setPhase("exam");
   };
 
@@ -614,8 +560,7 @@ export default function App(){
     setResult({questions,answers,tabWarnings,submitStatus});setPhase("result");
   };
 
-  if(phase==="auth")       return <GoogleAuthScreen onVerified={u=>{setGUser(u);setPhase("register");}}/>;
-  if(phase==="register")   return <RegisterScreen googleUser={gUser} onStart={handleStart}/>;
+  if(phase==="register")   return <RegisterScreen onStart={handleStart}/>;
   if(phase==="exam")       return <ExamScreen studentName={student.name} rollNumber={student.roll} onFinish={handleFinish}/>;
   if(phase==="submitting") return <SubmittingScreen/>;
   if(phase==="result")     return <ResultScreen studentName={student.name} rollNumber={student.roll} studentEmail={student.email} {...result}/>;
