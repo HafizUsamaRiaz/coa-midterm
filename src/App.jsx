@@ -259,7 +259,7 @@ function RegisterScreen({onStart}){
           <p style={{color:C.muted,fontSize:13,marginBottom:24,lineHeight:1.6}}>{EXAM_SUB}</p>
           <FieldInput label="FULL NAME" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Muhammad Ali"/>
           <FieldInput label="EMAIL" value={email} onChange={e=>setEmail(e.target.value)} placeholder="e.g. student@itu.edu.pk"/>
-          <FieldInput label="ROLL NUMBER" value={roll} onChange={e=>setRoll(e.target.value)} placeholder="e.g. 23-CE-001"/>
+          <FieldInput label="ROLL NUMBER" value={roll} onChange={e=>setRoll(e.target.value)} placeholder="e.g. BSCE24001"/>
           {error&&<div style={{background:"#1f0909",border:`1px solid #4a1a1a`,borderRadius:8,padding:"12px 16px",marginBottom:16,color:"#ff5252",fontSize:12,lineHeight:1.6}}>⚠ {error}</div>}
           <div style={{background:C.dim,borderRadius:10,padding:"14px 18px",marginBottom:20}}>
             {[["Section A: MCQs","10 questions · 90 sec each"],["Section B: Code Reading","8 questions · 120 sec each"],["Section C: Fill-in-Blank","7 questions · 120 sec each"],["Attempts","One only — per roll number"]].map(([k,v])=>(
