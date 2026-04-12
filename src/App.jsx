@@ -4,7 +4,7 @@ import { SECTION_A, SECTION_B, SECTION_C } from "./questions.js";
 // ═══════════════════════════════════════════════════════════════
 //  🔧 CONFIGURATION
 // ═══════════════════════════════════════════════════════════════
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID_HERE";
+const GOOGLE_CLIENT_ID = "https://script.google.com/macros/s/AKfycbzGos0nqk-BIjx9zwuVtSRfU4diIbfGwlKTiBZhcQfDiG25gNPxdaiW0d5dxgrG9Qqkhw/exec";
 const ITU_DOMAIN       = "itu.edu.pk";
 const SHEET_URL        = "YOUR_APPS_SCRIPT_URL_HERE";
 const COURSE           = "CE203L · Computer Organization & Architecture Lab";
