@@ -5,7 +5,7 @@ import { SECTION_A, SECTION_B, SECTION_C } from "./questions.js";
 //  🔧 CONFIGURATION
 // ═══════════════════════════════════════════════════════════════
 
-const SHEET_URL        = "YOUR_APPS_SCRIPT_URL_HERE";
+const SHEET_URL        = "https://script.google.com/macros/s/AKfycbzGos0nqk-BIjx9zwuVtSRfU4diIbfGwlKTiBZhcQfDiG25gNPxdaiW0d5dxgrG9Qqkhw/exec";
 const COURSE           = "CE203L · Computer Organization & Architecture Lab";
 const EXAM_TITLE       = "Midterm Exam";
 const EXAM_SUB         = "Labs 1–6 · Verilog HDL & Digital Design";
