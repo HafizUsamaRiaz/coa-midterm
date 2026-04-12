@@ -4,7 +4,7 @@ import { SECTION_A, SECTION_B, SECTION_C } from "./questions.js";
 // ═══════════════════════════════════════════════════════════════
 //  🔧 CONFIGURATION
 // ═══════════════════════════════════════════════════════════════
-const GOOGLE_CLIENT_ID = "807519902454-pir1e3qaa9kfb7et1o4dh8t8dtsaouil.apps.googleusercontent.com";
+//const GOOGLE_CLIENT_ID = "807519902454-pir1e3qaa9kfb7et1o4dh8t8dtsaouil.apps.googleusercontent.com";
 const ITU_DOMAIN       = "itu.edu.pk";
 const SHEET_URL        = "https://script.google.com/macros/s/AKfycbzGos0nqk-BIjx9zwuVtSRfU4diIbfGwlKTiBZhcQfDiG25gNPxdaiW0d5dxgrG9Qqkhw/exec";
 const COURSE           = "CE203L · Computer Organization & Architecture Lab";
