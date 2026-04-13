@@ -241,7 +241,7 @@ function RegisterScreen({onStart}){
     if(!email.trim())return setError("Please enter your email.");
     setError("");setBusy(true);
     try{
-      if(SHEET_URL!=="YOUR_APPS_SCRIPT_URL_HERE"){
+      if(SHEET_URL!=="https://script.google.com/macros/s/AKfycbzGos0nqk-BIjx9zwuVtSRfU4diIbfGwlKTiBZhcQfDiG25gNPxdaiW0d5dxgrG9Qqkhw/exec"){
         const res=await fetch(`${SHEET_URL}?action=check&roll=${encodeURIComponent(roll.trim().toUpperCase())}`);
         const data=await res.json();
         if(data.exists){setError(`Roll number ${roll.trim().toUpperCase()} has already completed this exam.`);setBusy(false);return;}
@@ -258,11 +258,11 @@ function RegisterScreen({onStart}){
           <h1 style={{color:C.text,fontSize:22,fontWeight:800,margin:"0 0 4px",fontFamily:C.sans}}>{EXAM_TITLE}</h1>
           <p style={{color:C.muted,fontSize:13,marginBottom:24,lineHeight:1.6}}>{EXAM_SUB}</p>
           <FieldInput label="FULL NAME" value={name} onChange={e=>setName(e.target.value)} placeholder="e.g. Muhammad Ali"/>
-          <FieldInput label="EMAIL" value={email} onChange={e=>setEmail(e.target.value)} placeholder="e.g. student@itu.edu.pk"/>
+          <FieldInput label="EMAIL" value={email} onChange={e=>setEmail(e.target.value)} placeholder="e.g. bsce24001@itu.edu.pk"/>
           <FieldInput label="ROLL NUMBER" value={roll} onChange={e=>setRoll(e.target.value)} placeholder="e.g. BSCE24001"/>
           {error&&<div style={{background:"#1f0909",border:`1px solid #4a1a1a`,borderRadius:8,padding:"12px 16px",marginBottom:16,color:"#ff5252",fontSize:12,lineHeight:1.6}}>⚠ {error}</div>}
           <div style={{background:C.dim,borderRadius:10,padding:"14px 18px",marginBottom:20}}>
-            {[["Section A: MCQs","10 questions · 90 sec each"],["Section B: Code Reading","8 questions · 120 sec each"],["Section C: Fill-in-Blank","7 questions · 120 sec each"],["Attempts","One only — per roll number"]].map(([k,v])=>(
+            {[["Section A: MCQs","10 questions · 60 sec each"],["Section B: Code Reading","8 questions · 90 sec each"],["Section C: Fill-in-Blank","7 questions · 90 sec each"],["Attempts","One only — per roll number"]].map(([k,v])=>(
               <div key={k} style={{display:"flex",justifyContent:"space-between",padding:"7px 0",borderBottom:`1px solid ${C.border}`,fontSize:12}}>
                 <span style={{color:C.muted}}>{k}</span><span style={{color:C.text}}>{v}</span>
               </div>
