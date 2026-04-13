@@ -14,9 +14,9 @@ const FACULTY          = "Faculty of Engineering";
 
 // Section config — questions per section picked randomly
 const SECTION_CONFIG = {
-  A: { questions: SECTION_A, pick: 10, timePerQ: 90,  label: "Section A", desc: "Concept MCQ",      color: "#4f8ef7", bg: "#0a1428" },
-  B: { questions: SECTION_B, pick: 8,  timePerQ: 120, label: "Section B", desc: "Code Reading",     color: "#22d49a", bg: "#071a10" },
-  C: { questions: SECTION_C, pick: 7,  timePerQ: 120, label: "Section C", desc: "Fill in the Blank", color: "#f7a94f", bg: "#1a100a" },
+  A: { questions: SECTION_A, pick: 10, timePerQ: 60,  label: "Section A", desc: "Concept MCQ",      color: "#4f8ef7", bg: "#0a1428" },
+  B: { questions: SECTION_B, pick: 8,  timePerQ: 90, label: "Section B", desc: "Code Reading",     color: "#22d49a", bg: "#071a10" },
+  C: { questions: SECTION_C, pick: 7,  timePerQ: 90, label: "Section C", desc: "Fill in the Blank", color: "#f7a94f", bg: "#1a100a" },
 };
 // ═══════════════════════════════════════════════════════════════
 
